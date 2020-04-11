@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{useRef,useState,useLayoutEffect} from 'react';
+import Bar from './bar/bar';
+import Grid from './grid/grid';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+let node_size = 30
+
+export default function App(props) {
+    const targetRef = useRef()
+    const [dimensions,setDimensions] = useState({width:0,height:0});
+
+    useLayoutEffect(() => {
+        if (targetRef.current) {
+          setDimensions({
+            width: targetRef.current.offsetWidth,
+            height: targetRef.current.offsetHeight
+          });
+        }
+      }, []);
+
+    return(
+        <div ref={targetRef}>
+            <Bar/>
+            <Grid node_size={node_size} width={dimensions.width}
+            height={dimensions.height - 60}/>
+        </div>
+    )
 }
-
-export default App;
