@@ -13,8 +13,6 @@ export default function Grid(props) {
         }
         myGrid.push(temprow)
     }
-    console.log(myGrid[0])
-    console.log(myGrid)
 
     return(
         <div id="drawArea">
@@ -23,7 +21,8 @@ export default function Grid(props) {
                 return rowvals.map((value,column) => {
                     return <Node node_size={props.node_size}
                     row={row}
-                    column={column}/>})
+                    column={column}
+                    key={row + "." + column}/>})
                 })
             }
         </svg>

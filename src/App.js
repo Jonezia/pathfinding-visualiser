@@ -8,6 +8,15 @@ export default function App(props) {
     const targetRef = useRef()
     const [dimensions,setDimensions] = useState({width:0,height:0});
 
+    let algorithm
+    let terrain
+    const changeAlgorithm = (event) => {
+        algorithm = event.target.value
+    }
+    const changeTerrain = (event) => {
+        terrain = event.target.value
+    }
+
     useLayoutEffect(() => {
         if (targetRef.current) {
           setDimensions({
@@ -19,7 +28,8 @@ export default function App(props) {
 
     return(
         <div ref={targetRef}>
-            <Bar/>
+            <Bar onChangeAlgorithm={changeAlgorithm}
+            onChangeTerrain={changeTerrain}/>
             <Grid node_size={node_size} width={dimensions.width}
             height={dimensions.height - 60}/>
         </div>

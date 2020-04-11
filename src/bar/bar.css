@@ -1,4 +1,33 @@
 .bar {
     background-color: green;
     height: 60px;
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+}
+
+#title {
+    color: yellow;
+    font-size: 30px;
+    line-height: 0px;
+    margin-left: 60px;
+    width: 300px;
+}
+
+button, select {
+    width: 100px;
+    height: 28px;
+    margin-top: 16px;
+    border-radius: 5px;
+}
+
+#finalButton {
+    margin-right: 360px;
+}
+
+#run {
+    height: 36px;
+    width: 120px;
+    margin-top: 12px;
+    font-size: 14px;
 }
