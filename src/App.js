@@ -1,12 +1,12 @@
 import React,{useRef,useState,useLayoutEffect} from 'react';
 import Bar from './bar/bar';
 import Grid from './grid/grid';
-
-let node_size = 30
+import Options from './options/options';
 
 export default function App(props) {
     const targetRef = useRef()
     const [dimensions,setDimensions] = useState({width:0,height:0});
+    const [nodeSize,setNodeSize] = useState(30)
 
     let algorithm
     let terrain
@@ -30,8 +30,9 @@ export default function App(props) {
         <div ref={targetRef}>
             <Bar onChangeAlgorithm={changeAlgorithm}
             onChangeTerrain={changeTerrain}/>
-            <Grid node_size={node_size} width={dimensions.width}
+            <Grid node_size={nodeSize} width={dimensions.width}
             height={dimensions.height - 60}/>
+            <Options/>
         </div>
     )
 }

@@ -8,7 +8,8 @@ export default function Node(props) {
     }
 
     return(
-        <rect x={props.row*props.node_size}
+        <rect className="node"
+            x={props.row*props.node_size}
             y={props.column*props.node_size}
             width={props.node_size}
             height={props.node_size}
