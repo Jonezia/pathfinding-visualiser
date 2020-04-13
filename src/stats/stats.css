@@ -1,0 +1,13 @@
+#statsContainer {
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    width: 100px;
+    background-color: rgba(0,128,0,0.2);
+    padding: 5px 10px 5px 10px;
+}
+
+#statsContent {
+    font-size: 12px;
+    margin: 0;
+}

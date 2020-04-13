@@ -2,6 +2,8 @@ import React,{useRef,useState,useLayoutEffect} from 'react';
 import Bar from './bar/bar';
 import Grid from './grid/grid';
 import Options from './options/options';
+import Instructions from './instructions/instructions'
+import Stats from './stats/stats'
 
 export default function App(props) {
     const targetRef = useRef()
@@ -33,6 +35,8 @@ export default function App(props) {
             <Grid node_size={nodeSize} width={dimensions.width}
             height={dimensions.height - 60}/>
             <Options/>
+            <Instructions/>
+            <Stats/>
         </div>
     )
 }
