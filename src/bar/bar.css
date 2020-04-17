@@ -31,3 +31,7 @@ button, select {
     margin-top: 12px;
     font-size: 14px;
 }
+
+select, button {
+    cursor: pointer;
+}

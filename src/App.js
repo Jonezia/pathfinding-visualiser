@@ -1,4 +1,5 @@
 import React,{useRef,useState,useLayoutEffect} from 'react';
+import './App.css'
 import Bar from './bar/bar';
 import Grid from './grid/grid';
 import Options from './options/options';
@@ -29,7 +30,7 @@ export default function App(props) {
       }, []);
 
     return(
-        <div ref={targetRef}>
+        <div ref={targetRef} id="masterContainer">
             <Bar onChangeAlgorithm={changeAlgorithm}
             onChangeTerrain={changeTerrain}/>
             <Grid node_size={nodeSize} width={dimensions.width}

@@ -2,11 +2,25 @@ import React from 'react';
 import './options.css';
 
 export default function Options(props) {
+    let toggleOptions = () => {
+        console.log('yeet')
+        let options = document.getElementById("optionsContainer")
+        let widget = document.getElementById("headerWidget")
+        if (options.className === "maximised") {
+            options.className = "minimised"
+            widget.innerHTML = "+"
+        } else {
+            options.className = "maximised"
+            widget.innerHTML = "-"
+        }
+    }
+
     return(
-        <div id="optionsContainer">
+        <div id="optionsContainer" className="maximised">
             <div id="header">
-                <p id="headerText" className="headerItems">Settings</p>
-                <p id="headerWidget" className="headerItems">-</p>
+                <p className="headerItems">Settings</p>
+                <p className="headerItems" id="headerWidget"
+                onClick={toggleOptions}>-</p>
             </div>
             <div id="tabsContainer">
                 <span className="tabs" id="leftTab">

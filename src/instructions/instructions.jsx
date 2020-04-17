@@ -6,7 +6,9 @@ export default function Instructions(props) {
         <div id="instructionsContainer">
             <div id="header">
                 <p className="headerItems">Instructions</p>
-                <p className="headerItems">x</p>
+                <p className="headerItems" id="closeInstructions" onClick={() =>
+                document.getElementById("instructionsContainer").className
+                = "hidden"}>x</p>
             </div>
             <div id="bodyContainer">
                 <p id="body">
@@ -20,4 +22,7 @@ export default function Instructions(props) {
             </div>
         </div>
     )
+
+    
 }
+

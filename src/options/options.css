@@ -4,8 +4,17 @@
     position: absolute;
     z-index: 2;
     background-color: rgba(0,128,0,0.2);
-    bottom: 0px;
     right: 50px;
+}
+
+.maximised {
+    bottom: 0px;
+    transition: bottom 1s;
+}
+
+.minimised {
+    bottom: -470px;
+    transition: bottom 1s;
 }
 
 #header {
@@ -16,6 +25,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#headerWidget, .tabs {
+    cursor: pointer;
 }
 
 .headerItems {
