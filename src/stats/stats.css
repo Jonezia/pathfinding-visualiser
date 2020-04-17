@@ -5,9 +5,19 @@
     width: 100px;
     background-color: rgba(0,128,0,0.2);
     padding: 5px 10px 5px 10px;
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 1s, opacity 1s;
+    transition-delay: .5s;
 }
 
 #statsContent {
     font-size: 12px;
     margin: 0;
+}
+
+#statsContainer:hover {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility .5s, opacity .5s;
 }
