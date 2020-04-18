@@ -1,21 +1,45 @@
 import React,{useState} from 'react'
 
 export default function Node(props) {
-    let [color,setColor] = useState("white");
+    let {node_size,row,column,isStart,isEnd,
+        handleMouseDown,handleMouseEnter,handleMouseUp} = props
 
-    const newWall = () => {
-        color === "white" ? setColor("black") : setColor("white")
+    let defaultColor = "white"
+    if (isStart) {
+        defaultColor = "red"
+    } else if (isEnd) {
+        defaultColor = "purple"
+    }
+
+    let [color,setColor] = useState(defaultColor);
+
+    const toggleColor = () => {
+        if (color === "white") {
+            setColor("black")
+        } else if (color === "black") {
+            setColor("white")
+        }
+    }
+
+    const onMouseDown = () => {
+        if (handleMouseDown(row,column)) {toggleColor()}
+    }
+
+    const onMouseEnter = () => {
+        if (handleMouseEnter(row,column)) {toggleColor()}
     }
 
     return(
         <rect className="node"
-            x={props.row*props.node_size}
-            y={props.column*props.node_size}
-            width={props.node_size}
-            height={props.node_size}
+            x={column*node_size}
+            y={row*node_size}
+            width={node_size}
+            height={node_size}
             fill={color}
             stroke="black"
             strokeOpacity="0.2"
-            onClick={newWall}>
+            onMouseDown={onMouseDown}
+            onMouseEnter={onMouseEnter}
+            onMouseUp={()=>handleMouseUp(row,column)}>
             </rect>)
 }
