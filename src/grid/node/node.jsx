@@ -4,12 +4,12 @@ export default function Node(props) {
     let {nodeSize,row,column,initialColor,
         handleMouseDown,handleMouseEnter,handleMouseUp} = props
 
-    let [color,setColor] = useState(null);
+    let [color,setColor] = useState(initialColor);
 
     const toggleColor = () => {
-        if (initialColor === "white") {
+        if (color === "white") {
             setColor("black")
-        } else if (initialColor === "black") {
+        } else if (color === "black") {
             setColor("white")
         }
     }
@@ -28,7 +28,7 @@ export default function Node(props) {
             y={row*nodeSize}
             width={nodeSize}
             height={nodeSize}
-            fill={color == null ? initialColor : color}
+            fill={color}
             stroke="black"
             strokeOpacity="0.2"
             onMouseDown={onMouseDown}

@@ -28,7 +28,11 @@ export default function Grid(props) {
         // }
         // setMyGrid(newGrid)
         // console.log("clearterrain pressed")
-        setMyGrid([[false,false,true,true,true]])
+        console.log(myGrid)
+        let testGrid = [[false,false,true,true,true]]
+        setMyGrid(testGrid.slice())
+        console.log("newGrid")
+        console.log(myGrid)
     }
 
     props.setClickClearTerrain(clearTerrain)
