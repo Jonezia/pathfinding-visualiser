@@ -15,8 +15,6 @@ export default function Grid(props) {
         tempGrid.push(temprow)
     }
 
-    let modelGrid = tempGrid.slice()
-
     let [myGrid,setMyGrid] = useState(tempGrid)
 
     const clearTerrain = () => {
@@ -30,7 +28,6 @@ export default function Grid(props) {
         // }
         // setMyGrid(newGrid)
         // console.log("clearterrain pressed")
-        console.log(modelGrid)
         setMyGrid([[false,false,true,true,true]])
     }
 
@@ -46,7 +43,8 @@ export default function Grid(props) {
     const toggleWall = (row,col) => {
         if ((mouseIsPressed) && !((row === start[0]) && (col === start[1])) &&
         !((row === end[0]) && (col === end[1]))) {
-            modelGrid[row][col] = !modelGrid[row][col]
+            myGrid[row][col] = !myGrid[row][col]
+            console.log(myGrid)
             return true
         } else {
             return false
