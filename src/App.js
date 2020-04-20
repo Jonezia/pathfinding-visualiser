@@ -20,6 +20,14 @@ export default function App(props) {
         terrain = event.target.value
     }
 
+    let onClickClearTerrainPassUp
+    const onClickClearTerrain = () => {
+      onClickClearTerrainPassUp()
+    }
+    const setClickClearTerrain = (func) => {
+      onClickClearTerrainPassUp = func
+    }
+
     useLayoutEffect(() => {
         if (targetRef.current) {
           setDimensions({
@@ -32,9 +40,11 @@ export default function App(props) {
     return(
         <div ref={targetRef} id="masterContainer">
             <Bar onChangeAlgorithm={changeAlgorithm}
-            onChangeTerrain={changeTerrain}/>
-            <Grid node_size={nodeSize} width={dimensions.width}
-            height={dimensions.height - 60}/>
+            onChangeTerrain={changeTerrain}
+            onClickClearTerrain={onClickClearTerrain}/>
+            <Grid nodeSize={nodeSize} width={dimensions.width}
+            height={dimensions.height - 60}
+            setClickClearTerrain={setClickClearTerrain}/>
             <Options/>
             <Instructions/>
             <Stats/>

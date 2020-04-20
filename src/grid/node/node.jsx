@@ -1,17 +1,10 @@
 import React,{useState} from 'react'
 
 export default function Node(props) {
-    let {node_size,row,column,isStart,isEnd,
+    let {nodeSize,row,column,initialColor,
         handleMouseDown,handleMouseEnter,handleMouseUp} = props
 
-    let defaultColor = "white"
-    if (isStart) {
-        defaultColor = "red"
-    } else if (isEnd) {
-        defaultColor = "purple"
-    }
-
-    let [color,setColor] = useState(defaultColor);
+    let [color,setColor] = useState(initialColor);
 
     const toggleColor = () => {
         if (color === "white") {
@@ -31,10 +24,10 @@ export default function Node(props) {
 
     return(
         <rect className="node"
-            x={column*node_size}
-            y={row*node_size}
-            width={node_size}
-            height={node_size}
+            x={column*nodeSize}
+            y={row*nodeSize}
+            width={nodeSize}
+            height={nodeSize}
             fill={color}
             stroke="black"
             strokeOpacity="0.2"
