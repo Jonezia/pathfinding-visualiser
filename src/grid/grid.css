@@ -1,7 +1,7 @@
 #drawArea {
     width: 100%;
     height: calc(100vh - 60px);
-    background-color: blue;
+    background-color:white;
 }
 
 #fullGrid {
