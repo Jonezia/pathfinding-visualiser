@@ -12,7 +12,8 @@ export default function Instructions(props) {
             </div>
             <div id="bodyContainer">
                 <p id="body">
-                Click and drag on the grid to create walls<br></br>
+                Click and drag with the left mouse button to create walls<br></br>
+                Click with the right mouse button to increase a node's weight<br></br>
                 Drag the <span className="red">red </span>
                 node to change the start position<br></br>
                 Drag the <span className="purple">purple </span>

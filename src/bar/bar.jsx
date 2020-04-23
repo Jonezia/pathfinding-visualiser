@@ -20,7 +20,7 @@ export default function Bar(props) {
                 <option value="landscape">Weighted Landscape</option>
             </select>
             <button id="run">Run!</button>
-            <button>Clear Path</button>
+            <button  onClick={() => props.onClickClearPath()}>Clear Path</button>
             <button id="finalButton"
             onClick={() => props.onClickClearTerrain()}>Clear Terrain</button>
         </div>

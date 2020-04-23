@@ -1,12 +1,12 @@
 import React,{useState} from 'react'
 
 export default function Node(props) {
-    let {nodeSize,row,column,state,weight,isStart,isEnd,
-        handleMouseDown,handleMouseEnter,handleMouseUp} = props
+    let {nodeSize,row,column,isWall,isExplored,weight,isStart,isEnd,
+        handleLeftMouseDown,handleLeftMouseEnter,handleLeftMouseUp,
+        handleRightMouseDown,handleRightMouseEnter,handleRightMouseUp,} = props
 
     const wallColor = "black"
     const exploredColor = "green"
-    const fringeColor = "light green"
     const startColor = "red"
     const endColor = "purple"
     const weights = ["rgba(255,255,255,1)", "rgba(204,250,255,1)",
@@ -17,34 +17,49 @@ export default function Node(props) {
     const setInitialColor = () => {
         if (isStart) {return startColor}
         else if (isEnd) {return endColor}
-        switch(state) {
-            case 0: return weights[weight];
-            case 1: return wallColor;
-            case 2: return exploredColor;
-            case 3: return fringeColor;
-            default: return weights[0];
-        }
+        else if (isWall) {return wallColor}
+        else if (isExplored) {return exploredColor}
+        return weights[weight]
     }
 
-    let prevColor = weights[0]
+    let initialColor = setInitialColor()
 
-    let [color,setColor] = useState(setInitialColor);
+    let [color,setColor] = useState(initialColor);
 
     const toggleColor = () => {
         if (color !== wallColor) {
-            prevColor = color
             setColor(wallColor)
         } else if (color === wallColor) {
-            setColor(prevColor)
+            setColor(initialColor)
         }
     }
 
-    const onMouseDown = () => {
-        if (handleMouseDown(row,column)) {toggleColor()}
+    const incrementWeightColor = (newWeight) => {
+        initialColor = weights[newWeight]
+        setColor(initialColor)
     }
 
-    const onMouseEnter = () => {
-        if (handleMouseEnter(row,column)) {toggleColor()}
+    const onMouseDown = (e) => {
+        switch (e.button) {
+            case 0: if (handleLeftMouseDown(row,column)) {toggleColor()}; break;
+            case 2: let newWeight = handleRightMouseDown(row,column)
+                    if (newWeight) {incrementWeightColor(newWeight)}; break;
+            default: if (handleLeftMouseDown(row,column)) {toggleColor()};
+        }
+    }
+
+    const onMouseEnter = (e) => {
+        if (handleLeftMouseEnter(row,column)) {toggleColor()};
+        let newWeight = handleRightMouseEnter(row,column);
+        if (newWeight) {incrementWeightColor(newWeight)};
+    }
+
+    const onMouseUp = (e) => {
+        switch (e.button) {
+            case 0: handleLeftMouseUp(row,column); break;
+            case 2: handleRightMouseUp(row,column); break;
+            default: handleLeftMouseUp(row,column);;
+        }
     }
 
     return(
@@ -58,6 +73,7 @@ export default function Node(props) {
             strokeOpacity="0.2"
             onMouseDown={onMouseDown}
             onMouseEnter={onMouseEnter}
-            onMouseUp={()=>handleMouseUp(row,column)}>
+            onMouseUp={onMouseUp}
+            onContextMenu={(e) => e.preventDefault()}>
             </rect>)
 }
