@@ -17,7 +17,7 @@
     transition: bottom 1s;
 }
 
-#header {
+.header {
     width: 100%;
     background-color: rgba(0,128,0,0.7);
     opacity: 100%;
@@ -27,14 +27,14 @@
     align-items: center;
 }
 
-#headerWidget, .tabs {
+#headerWidget, .tab, .tab p {
     cursor: pointer;
 }
 
 .headerItems {
     margin: 0;
     padding: 0px 10px 0px 10px;
-    font-size: 18px;
+    font-size: 20px;
     color: yellow;
 }
 
@@ -43,22 +43,34 @@
     height: 25px;
 }
 
-.tabs {
+#tabsContainer span {
     width: 80px;
     height: 100%;
-    background-color: rgba(0,128,0,0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     float: left;
 }
 
-#leftTab, #middleTab {
-    box-shadow: 1px 0 0 rgba(0,0,0,0.5);
+.tab {
+    background-color: rgba(0,128,0,0.4);
+}
+
+.tab:hover {
+    background-color: rgba(0,128,0,0.3);
+}
+
+.selectedTab {
+    background-color: rgba(0,128,0,0);
+    cursor: default;
+}
+
+#algorithmTab, #terrainTab {
+    box-shadow: 1px 0 0 rgba(0,0,0,0.4);
 }
 
 .tabsContent {
-    font-size: 14px;
+    font-size: 15px;
     margin: 0;
 }
 

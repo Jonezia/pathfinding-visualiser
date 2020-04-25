@@ -5,10 +5,10 @@ export default function Node(props) {
         handleLeftMouseDown,handleLeftMouseEnter,handleLeftMouseUp,
         handleRightMouseDown,handleRightMouseEnter,handleRightMouseUp,} = props
 
-    const wallColor = "black"
+    const wallColor = "rgba(85,85,85,1)"
     const exploredColor = "green"
-    const startColor = "red"
-    const endColor = "purple"
+    const startColor = "rgba(255,60,60,1)"
+    const endColor = "rgba(180,65,255,1)"
     const weights = ["rgba(255,255,255,1)", "rgba(204,250,255,1)",
     "rgba(178,242,255,1)", "rgba(153,229,255,1)", "rgba(127,212,255,1)",
     "rgba(101,191,255,1)", "rgba(76,165,255,1)", "rgba(50,136,255,1)",
