@@ -26,26 +26,39 @@ export default function OptionsContent(props) {
                 </div>
                 <div className="selectorWrapper">
                     <p>Heuristic: </p>
-                    <div>
-                        <div className="radioSelector">
-                            <input type="radio" value="euclidean"/>
+                    <div onChange={props.onChangeHeuristic}>
+                        <div className="selector">
+                            <input type="radio" value="euclidean"
+                            name="heuristic" defaultChecked/>
                             <label>Euclidean</label>
                         </div>
-                        <div className="radioSelector">
-                            <input type="radio" value="manhattan"/>
+                        <div className="selector">
+                            <input type="radio" value="manhattan"
+                            name="heuristic"/>
                             <label>Manhattan</label>
+                        </div>
+                    </div>
+                </div>
+                <div className="selectorWrapper">
+                    <p>Heuristic strength: </p>
+                    <div>
+                        <div className="selector">
+                            <input class="textInput" placeholder="1"
+                            onChange={props.onChangeHeuristicStrength}/>
                         </div>
                     </div>
                 </div>
                 <div className="selectorWrapper">
                     <p>Options: </p>
                     <div>
-                        <div className="checkboxSelector">
-                            <input type="checkbox" value="diagonal"/>
+                        <div className="selector">
+                            <input type="checkbox" value="diagonal"
+                            onChange={props.onChangeDiagonal}/>
                             <label>Allow diagonal</label>
                         </div>
-                        <div className="checkboxSelector">
-                            <input type="checkbox" value="corners"/>
+                        <div className="selector">
+                            <input type="checkbox" value="corners"
+                            defaultChecked onChange={props.onChangeCorners}/>
                             <label>Cross corners</label>
                         </div>
                     </div>

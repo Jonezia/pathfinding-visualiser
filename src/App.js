@@ -9,6 +9,10 @@ import Stats from './stats/stats'
 let algorithm
 let terrain
 let speed = 50
+let heuristic = "euclidean"
+let heuristicStrength = 1
+let diagonal = false
+let corners = true
 
 export default function App(props) {
     const targetRef = useRef()
@@ -48,6 +52,23 @@ export default function App(props) {
     const changeSpeed = (event) => {
         speed = event.target.value
     }
+    const changeHeuristic = (event) => {
+        heuristic = event.target.value
+    }
+    const changeHeuristicStrength = (event) => {
+        if (event.target.value) {
+            heuristicStrength = event.target.value
+        }
+        else {
+            heuristicStrength = 1
+        }
+    }
+    const changeDiagonal = (event) => {
+        diagonal = event.target.checked
+    }
+    const changeCorners = (event) => {
+        corners = event.target.checked
+    }
 
     useLayoutEffect(() => {
         if (targetRef.current) {
@@ -70,10 +91,14 @@ export default function App(props) {
             setClickClearPath={setClickClearPath}
             setChangeNodeSize={setChangeNodeSize}
             algorithm={algorithm}
-            speed={speed}/>
+            speed={speed}
+            heuristic={heuristic}/>
             <Options onChangeSpeed={changeSpeed}
             onChangeNodeSize={onChangeNodeSize}
-            speed={speed}/>
+            onChangeHeuristic={changeHeuristic}
+            onChangeHeuristicStrength={changeHeuristicStrength}
+            onChangeDiagonal={changeDiagonal}
+            onChangeCorners={changeCorners}/>
             <Instructions/>
             <Stats/>
         </div>

@@ -16,15 +16,22 @@
     display: inline-block;
 }
 
-.slider {
+.slider, .textInput {
     margin-left: 10px;
     display: inline-block;
-    width: 120px;
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-.radioSelector {
+.slider {
+    width: 120px;
+}
+
+.textInput {
+    width: 50px;
+}
+
+.selector {
     display: flex;
     align-items: center;
 }

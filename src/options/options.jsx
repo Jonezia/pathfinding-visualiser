@@ -46,9 +46,11 @@ export default function Options(props) {
             <div id="contentContainer">
                 <OptionsContent selectedTab={selectedTab}
                 onChangeSpeed={props.onChangeSpeed}
+                onChangeHeuristic={props.onChangeHeuristic}
+                onChangeHeuristicStrength={props.onChangeHeuristicStrength}
                 onChangeNodeSize={props.onChangeNodeSize}
-                nodeSize={props.nodeSize}
-                speed={props.speed}/>
+                onChangeDiagonal={props.onChangeDiagonal}
+                onChangeCorners={props.onChangeCorners}/>
             </div>
         </div>
     )
