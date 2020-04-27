@@ -27,7 +27,7 @@ export default function Options(props) {
 
     return(
         <div id="optionsContainer" className="maximised">
-            <div class="header">
+            <div className="header">
                 <p className="headerItems">Settings</p>
                 <p className="headerItems" id="headerWidget"
                 onClick={toggleOptions}>-</p>
@@ -44,7 +44,11 @@ export default function Options(props) {
                     <p className="tabsContent">Nodes</p></span>
             </div>
             <div id="contentContainer">
-                <OptionsContent selectedTab={selectedTab}/>
+                <OptionsContent selectedTab={selectedTab}
+                onChangeSpeed={props.onChangeSpeed}
+                onChangeNodeSize={props.onChangeNodeSize}
+                nodeSize={props.nodeSize}
+                speed={props.speed}/>
             </div>
         </div>
     )

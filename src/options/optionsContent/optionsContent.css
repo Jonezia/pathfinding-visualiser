@@ -1,4 +1,4 @@
-#contentWrapper {
+.contentWrapper {
     padding: 10px;
 }
 
@@ -16,16 +16,9 @@
     display: inline-block;
 }
 
-.textInput, .slider {
+.slider {
     margin-left: 10px;
     display: inline-block;
-}
-
-.textInput {
-    width: 80px;
-}
-
-.slider {
     width: 120px;
     margin-top: 0px;
     margin-bottom: 0px;

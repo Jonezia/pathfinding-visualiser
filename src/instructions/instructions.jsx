@@ -4,7 +4,7 @@ import './instructions.css'
 export default function Instructions(props) {
     return(
         <div id="instructionsContainer">
-            <div class="header">
+            <div className="header">
                 <p className="headerItems">Instructions</p>
                 <p className="headerItems" id="closeInstructions" onClick={() =>
                 document.getElementById("instructionsContainer").className
