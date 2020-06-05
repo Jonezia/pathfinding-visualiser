@@ -13,6 +13,13 @@ let nodeSize = 30
 let rows = Math.ceil(height/nodeSize)
 let cols = Math.ceil(width/nodeSize)
 
+let start = [10,15]
+let end = [10,35]
+
+let leftMouseIsPressed = false
+let rightMouseIsPressed = false
+let running = false
+
 const newGrid = (prows,pcols) => {
     let tempGrid = []
     for (let row=0; row<prows; row++) {
@@ -22,23 +29,28 @@ const newGrid = (prows,pcols) => {
         // Node = [isWall,isExplored,weight]
         // isWall, isExplored, boolean
         //weight = integer 0-9, how much "effort" it takes to expand a node
-            temprow.push([false,false,0])
+            temprow.push(createNode(row,col))
         }
         tempGrid.push(temprow)
     }
     return tempGrid
 }
 
+const createNode = (row, col) => {
+    return {
+      row,
+      col,
+      weight: 0,
+      isStart: row === start[0] && col === start[1],
+      isEnd: row === end[0] && col === end[1],
+      distance: Infinity,
+      isVisited: false,
+      isWall: false,
+      previousNode: null,
+    };
+  };
+
 let modelGrid = newGrid(rows,cols)
-
-// let start = [Math.floor(rows/2)-1,Math.floor(cols/3)-1]
-// let end = [Math.floor(rows/2)-1,Math.floor(cols*2/3)-1]
-let start = [10,15]
-let end = [10,35]
-
-let leftMouseIsPressed = false
-let rightMouseIsPressed = false
-let running = false
 
 // Thus, the structure of a grid is
 // [ row: [ node: [ isWall: bool, isExplored: bool, weight: 0-9] ]
@@ -53,10 +65,10 @@ export default function Grid(props) {
     const clearTerrain = () => {
         for (let row=0; row < rows; row++) {
             for (let col=0; col < cols; col++) {
-                if (modelGrid[row][col][0]) {
-                    modelGrid[row][col][0] = !modelGrid[row][col][0]
+                if (modelGrid[row][col].isWall) {
+                    modelGrid[row][col].isWall = false
                 }
-                modelGrid[row][col][2] = 0
+                modelGrid[row][col].weight = 0
             }
         }
         setMyGrid(modelGrid.slice())
@@ -67,8 +79,8 @@ export default function Grid(props) {
     const clearPath = () => {
         for (let row=0; row < rows; row++) {
             for (let col=0; col < cols; col++) {
-                if (modelGrid[row][col][1] === true) {
-                    modelGrid[row][col][1] = false
+                if (modelGrid[row][col].isVisited) {
+                    modelGrid[row][col].isVisited = false
                 }
             }
         }
@@ -85,13 +97,17 @@ export default function Grid(props) {
                 if (newCols > cols) {
                     for (let row=0; row<rows; row++) {
                         for (let i=0; i<newCols-cols; i++) {
-                            modelGrid[row].push([false,false,0])
+                            modelGrid[row].push(createNode(row,cols+i))
                             }
                         }
                 }
                 if (newRows > rows) {
                     for (let i=0; i<newRows-rows; i++) {
-                        modelGrid.push(Array(newCols).fill([false,false,0]))
+                        let temprow = []
+                        for (let j=0; j<newCols; j++) {
+                            temprow.push(createNode(rows+i,j))
+                        }
+                        modelGrid.push(temprow)
                     }
                 }
             } else {
@@ -112,7 +128,7 @@ export default function Grid(props) {
     const toggleWall = (row,col) => {
         if ((leftMouseIsPressed) && !((row === start[0]) && (col === start[1])) &&
         !((row === end[0]) && (col === end[1]))) {
-            modelGrid[row][col][0] = !modelGrid[row][col][0]
+            modelGrid[row][col].isWall = !modelGrid[row][col].isWall
             return true
         } else {
             return false
@@ -121,10 +137,10 @@ export default function Grid(props) {
 
     const incrementWeight = (row,col) => {
         if ((rightMouseIsPressed) && !((row === start[0]) && (col === start[1])) &&
-        !((row === end[0]) && (col === end[1])) && (modelGrid[row][col][2] < 9)
-        && !(modelGrid[row][col][0])) {
-            modelGrid[row][col][2] += 1
-            return modelGrid[row][col][2]
+        !((row === end[0]) && (col === end[1])) && (modelGrid[row][col].weight < 9)
+        && !(modelGrid[row][col].isWall)) {
+            modelGrid[row][col].weight += 1
+            return modelGrid[row][col].weight
         } else {
             return false
         }
@@ -190,11 +206,11 @@ export default function Grid(props) {
                     row={row}
                     column={column}
                     key={`${row}-${column}-${date.getTime()}`}
-                    isWall={node[0]}
-                    isExplored={node[1]}
-                    weight={node[2]}
-                    isStart={(row === start[0] && column === start[1])}
-                    isEnd={(row === end[0] && column === end[1])}
+                    isWall={node.isWall}
+                    isExplored={node.isVisited}
+                    weight={node.weight}
+                    isStart={node.isStart}
+                    isEnd={node.isEnd}
                     handleLeftMouseDown={handleLeftMouseDown}
                     handleLeftMouseEnter={handleLeftMouseEnter}
                     handleLeftMouseUp={handleLeftMouseUp}
