@@ -2,6 +2,9 @@ import React,{useState} from 'react'
 import './grid.css'
 import Node from './node/node'
 
+// let rows = Math.ceil(props.height/props.nodeSize);
+// let cols = Math.ceil(props.width/props.nodeSize);
+
 let height = 694
 let width = 1536
 
@@ -28,26 +31,30 @@ const newGrid = (prows,pcols) => {
 
 let modelGrid = newGrid(rows,cols)
 
+// let start = [Math.floor(rows/2)-1,Math.floor(cols/3)-1]
+// let end = [Math.floor(rows/2)-1,Math.floor(cols*2/3)-1]
 let start = [10,15]
 let end = [10,35]
 
 let leftMouseIsPressed = false
 let rightMouseIsPressed = false
-let delay = 100
 let running = false
 
 // Thus, the structure of a grid is
 // [ row: [ node: [ isWall: bool, isExplored: bool, weight: 0-9] ]
 
 export default function Grid(props) {
+    let date = new Date()
+
+    let delay = (101-props.speed)*100
 
     let [myGrid,setMyGrid] = useState(modelGrid)
 
     const clearTerrain = () => {
-        for (let row=0; row<modelGrid.length; row++) {
-            for (let col=0; col<modelGrid[row].length; col++) {
+        for (let row=0; row < rows; row++) {
+            for (let col=0; col < cols; col++) {
                 if (modelGrid[row][col][0]) {
-                    modelGrid[row][col][0] = !modelGrid[row][col]
+                    modelGrid[row][col][0] = !modelGrid[row][col][0]
                 }
                 modelGrid[row][col][2] = 0
             }
@@ -58,8 +65,8 @@ export default function Grid(props) {
     props.setClickClearTerrain(clearTerrain)
 
     const clearPath = () => {
-        for (let row=0; row<modelGrid.length; row++) {
-            for (let col=0; col<modelGrid[row].length; col++) {
+        for (let row=0; row < rows; row++) {
+            for (let col=0; col < cols; col++) {
                 if (modelGrid[row][col][1] === true) {
                     modelGrid[row][col][1] = false
                 }
@@ -70,10 +77,37 @@ export default function Grid(props) {
 
     props.setClickClearPath(clearPath)
 
-    // let start = [Math.floor(rows/2)-1,Math.floor(cols/3)-1]
-    // let end = [Math.floor(rows/2)-1,Math.floor(cols*2/3)-1]
+    const changeNodeSize = (newSize) => {
+        let newRows = Math.ceil(height/newSize)
+        let newCols = Math.ceil(width/newSize)
+        if ((newRows !== rows) || (newCols !== cols)) {
+            if (newSize < nodeSize) {
+                if (newCols > cols) {
+                    for (let row=0; row<rows; row++) {
+                        for (let i=0; i<newCols-cols; i++) {
+                            modelGrid[row].push([false,false,0])
+                            }
+                        }
+                }
+                if (newRows > rows) {
+                    for (let i=0; i<newRows-rows; i++) {
+                        modelGrid.push(Array(newCols).fill([false,false,0]))
+                    }
+                }
+            } else {
+                for (let row=0; row<newRows; row++) {
+                    modelGrid[row] = modelGrid[row].slice(0,newCols)
+                }
+                modelGrid = modelGrid.slice(0,newRows)
+            }
+            rows = newRows
+            cols = newCols
+        }
+        nodeSize = newSize
+        setMyGrid(modelGrid.slice())
+    }
 
-    let date = new Date()
+    props.setChangeNodeSize(changeNodeSize)
 
     const toggleWall = (row,col) => {
         if ((leftMouseIsPressed) && !((row === start[0]) && (col === start[1])) &&
@@ -152,7 +186,7 @@ export default function Grid(props) {
         <svg id="fullGrid">
             {myGrid.map((rowvals,row) => {
                 return rowvals.map((node,column) => {
-                    return <Node nodeSize={props.nodeSize}
+                    return <Node nodeSize={nodeSize}
                     row={row}
                     column={column}
                     key={`${row}-${column}-${date.getTime()}`}
