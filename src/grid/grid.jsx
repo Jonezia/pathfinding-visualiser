@@ -54,12 +54,12 @@ export default function Grid(props) {
         for (let row=0; row<rows; row++) {
             for (let col=0; col<cols; col++) {
                 if (modelGrid[row][col][0]) {
-                    modelGrid[row][col][0] = !modelGrid[row][col]
+                    modelGrid[row][col][0] = !modelGrid[row][col][0]
                 }
                 modelGrid[row][col][2] = 0
             }
         }
-        setMyGrid(modelGrid.slice())
+        setMyGrid(modelGrid)
     }
 
     props.setClickClearTerrain(clearTerrain)
@@ -72,7 +72,7 @@ export default function Grid(props) {
                 }
             }
         }
-        setMyGrid(modelGrid.slice())
+        setMyGrid(modelGrid)
     }
 
     props.setClickClearPath(clearPath)

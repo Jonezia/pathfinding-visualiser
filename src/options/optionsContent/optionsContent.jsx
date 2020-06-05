@@ -43,7 +43,7 @@ export default function OptionsContent(props) {
                     <p>Heuristic strength: </p>
                     <div>
                         <div className="selector">
-                            <input class="textInput" placeholder="1"
+                            <input className="textInput" placeholder="1"
                             onChange={props.onChangeHeuristicStrength}/>
                         </div>
                     </div>
