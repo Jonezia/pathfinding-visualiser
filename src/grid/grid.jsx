@@ -172,11 +172,32 @@ export default function Grid(props) {
         rightMouseIsPressed = false
     }
 
-    const animate = (animation) => {
+    const getFrames = () => {
+        let startNode = modelGrid[start[0]][start[1]]
+        let endNode = modelGrid[end[0]][end[1]]
+        let frames
+        // if (props.algorithm === "DEFAULT") {
+        //     return
+        // } else if (props.algorithm === "bfs") {
+        //     frames = bfs(modelGrid, startNode, endNode)
+        // } else if (props.algorithm === "dfs") {
+        //     frames = dfs(modelGrid, startNode, endNode)
+        // } else if (props.algorithm === "greedy") {
+        //     frames = greedy(modelGrid, startNode, endNode)
+        // } else if (props.algorithm === "dijkstra") {
+        //     frames = dijkstra(modelGrid, startNode, endNode)
+        // } else if (props.algorithm === "astar") {
+        //     frames = astar(modelGrid, startNode, endNode)
+        // }
+        // let nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode);
+        // animateFrames(frames)
+        // animatePath(nodesInShortesPathOrder)
+    }
+
+    props.setClickGetFrames(getFrames)
+
+    const animateFrames = (frames) => {
         // let frames = generateFrames(algorithm, myArray)
-        let frames = [
-            [[[false,false,0]]]
-        ]
         let runAnimations = () => {
             if (running) {
             if (i === frames.length) {

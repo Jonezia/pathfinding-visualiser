@@ -34,6 +34,14 @@ export default function App(props) {
         onClickClearPathPassUp = func
     }
 
+    let onClickGetFramesPassUp
+    const onClickGetFrames = () => {
+        onClickGetFramesPassUp()
+    }
+    const setClickGetFrames = (func) => {
+        onClickGetFramesPassUp = func
+    }
+
     let onChangeNodeSizePassUp
     const onChangeNodeSize = (event) => {
         onChangeNodeSizePassUp(event.target.value)
@@ -84,11 +92,13 @@ export default function App(props) {
             <Bar onChangeAlgorithm={changeAlgorithm}
             onChangeTerrain={changeTerrain}
             onClickClearTerrain={onClickClearTerrain}
-            onClickClearPath={onClickClearPath}/>
+            onClickClearPath={onClickClearPath}
+            onClickGetFrames={onClickGetFrames}/>
             <Grid width={dimensions.width}
             height={dimensions.height - 60}
             setClickClearTerrain={setClickClearTerrain}
             setClickClearPath={setClickClearPath}
+            setClickGetFrames={setClickGetFrames}
             setChangeNodeSize={setChangeNodeSize}
             algorithm={algorithm}
             speed={speed}
