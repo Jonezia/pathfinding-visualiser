@@ -79,6 +79,8 @@ export default function Grid(props) {
                 if (modelGrid[row][col].isVisited) {
                     modelGrid[row][col].isVisited = false
                 }
+                modelGrid[row][col].distance = Infinity
+                modelGrid[row][col].previousNode = null
             }
         }
         setMyGrid(modelGrid.slice())
@@ -172,21 +174,20 @@ export default function Grid(props) {
     const getFrames = () => {
         let startNode = modelGrid[start[0]][start[1]]
         let endNode = modelGrid[end[0]][end[1]]
+        clearPath()
         let visitedInOrder = dijkstra(modelGrid,startNode,endNode)
         clearPath()
-        console.log(props.algorithm)
-        console.log(delay)
-        console.log(props.speed)
+        console.log(visitedInOrder)
         animateFrames(visitedInOrder)
     }
 
     props.setClickGetFrames(getFrames)
 
     const visitNode = (node) => {
-        console.log(node.row)
-        console.log(node.col)
         modelGrid[node.row][node.col].isVisited = true
-        setMyGrid(modelGrid.slice())
+        if (!node.isStart && !node.isEnd) {
+            document.getElementById(`${node.row}-${node.col}`).style.fill = "green"
+        }
     }
 
     const animateFrames = (anim) => {

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React from 'react'
 
 const wallColor = "rgba(85,85,85,1)"
 const exploredColor = "green"
@@ -23,8 +23,12 @@ export default function Node(props) {
     }
 
     let initialColor = setInitialColor()
+    const setColor = (newcolor) => {
+        color = newcolor
+        document.getElementById(`${row}-${column}`).style.fill = newcolor
+    }
 
-    let [color,setColor] = useState(initialColor);
+    let color = initialColor
 
     const toggleColor = () => {
         if (color !== wallColor) {
