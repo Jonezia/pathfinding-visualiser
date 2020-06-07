@@ -1,7 +1,8 @@
 import React from 'react'
 
 const wallColor = "rgba(85,85,85,1)"
-const exploredColor = "green"
+const exploredColor = "rgb(206,250,5)"
+const pathColor = "rgb(255,190,28)"
 const startColor = "rgba(255,60,60,1)"
 const endColor = "rgba(180,65,255,1)"
 const weights = ["rgba(255,255,255,1)", "rgba(204,250,255,1)",
@@ -10,7 +11,7 @@ const weights = ["rgba(255,255,255,1)", "rgba(204,250,255,1)",
     "rgba(25,101,240,1)", "rgba(0,63,200,1)"]
 
 export default function Node(props) {
-    let {nodeSize,row,column,id,isWall,isExplored,weight,isStart,isEnd,
+    let {nodeSize,row,column,id,isWall,isPath,isExplored,weight,isStart,isEnd,
         handleLeftMouseDown,handleLeftMouseEnter,handleLeftMouseUp,
         handleRightMouseDown,handleRightMouseEnter,handleRightMouseUp,} = props
 
@@ -18,6 +19,7 @@ export default function Node(props) {
         if (isStart) {return startColor}
         else if (isEnd) {return endColor}
         else if (isWall) {return wallColor}
+        else if (isPath) {return pathColor}
         else if (isExplored) {return exploredColor}
         return weights[weight]
     }

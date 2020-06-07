@@ -16,8 +16,8 @@ export function algorithm(grid,startNode,endNode,algorithm,
                     true,heuristic,heuristicStrength,diagonal)
             default:
                 return
-        }
     }
+}
 
 function astar (grid, startNode, endNode, distance,
     heuristic, heuristicStrength, diagonal) {
@@ -25,36 +25,36 @@ function astar (grid, startNode, endNode, distance,
     startNode.distance = 0;
     let unvisitedNodes = getAllNodes(grid);
     while (!!unvisitedNodes.length) {
-      sortNodesByDistance(unvisitedNodes);
-      let closestNode = unvisitedNodes.shift();
-      if (closestNode.isWall) continue;
-      if (closestNode.distance === Infinity) return nodesInOrder;
-      closestNode.isVisited = true;
-      nodesInOrder.push(closestNode);
-      if (closestNode === endNode) return nodesInOrder;
-      updateUnvisitedNeighbors(closestNode, grid, endNode,
-        distance, heuristic, heuristicStrength, diagonal);
+        sortNodesByDistance(unvisitedNodes);
+        let closestNode = unvisitedNodes.shift();
+        if (closestNode.isWall) continue;
+        if (closestNode.distance === Infinity) return nodesInOrder;
+        closestNode.isVisited = true;
+        nodesInOrder.push(closestNode);
+        if (closestNode === endNode) return nodesInOrder;
+        updateUnvisitedNeighbors(closestNode, grid, endNode,
+            distance, heuristic, heuristicStrength, diagonal);
     }
-  }
+}
   
-  function sortNodesByDistance(unvisitedNodes) {
+function sortNodesByDistance(unvisitedNodes) {
     unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
-  }
+}
   
-  function getHeuristic(heuristic,node,endNode) {
-      switch (heuristic) {
-            case "euclidean":
-                return Math.sqrt(Math.pow((node.col - endNode.col),2) + Math.pow((node.row - endNode.row),2))
-            case "manhattan":
-                return Math.abs(node.col - endNode.col) + Math.abs(node.row - endNode.row)
-            case "diagonal":
-                return Math.max(Math.abs(node.col - endNode.col),Math.abs(node.row - endNode.row))
-            default:
-                return
-      }
-  }
+function getHeuristic(heuristic,node,endNode) {
+    switch (heuristic) {
+        case "euclidean":
+            return Math.sqrt(Math.pow((node.col - endNode.col),2) + Math.pow((node.row - endNode.row),2))
+        case "manhattan":
+            return Math.abs(node.col - endNode.col) + Math.abs(node.row - endNode.row)
+        case "diagonal":
+            return Math.max(Math.abs(node.col - endNode.col),Math.abs(node.row - endNode.row))
+        default:
+            return
+    }
+}
 
-  function updateUnvisitedNeighbors(node, grid, endNode, distance, heuristic, heuristicStrength, diagonal) {
+function updateUnvisitedNeighbors(node, grid, endNode, distance, heuristic, heuristicStrength, diagonal) {
     let unvisitedNeighbors = getUnvisitedNeighbors(node, grid, diagonal);
     for (let neighbor of unvisitedNeighbors) {
         neighbor.distance = node.distance
@@ -66,9 +66,9 @@ function astar (grid, startNode, endNode, distance,
         }
       neighbor.previousNode = node;
     }
-  }
+}
   
-  function getUnvisitedNeighbors(node, grid, diagonal) {
+function getUnvisitedNeighbors(node, grid, diagonal) {
     let neighbors = [];
     let {row, col} = node;
     if (row > 0) neighbors.push(grid[row - 1][col]);
@@ -82,24 +82,24 @@ function astar (grid, startNode, endNode, distance,
         if ((row < grid.length - 1) && (col < grid[0].length - 1)) neighbors.push(grid[row+1][col+1]);
     }
     return neighbors.filter(neighbor => !neighbor.isVisited);
-  }
+}
   
-  function getAllNodes(grid) {
+function getAllNodes(grid) {
     let nodes = [];
     for (let row of grid) {
-      for (let node of row) {
-        nodes.push(node);
-      }
+        for (let node of row) {
+            nodes.push(node);
+        }
     }
     return nodes;
-  }
-  
-  export function getNodesInShortestPathOrder(endNode) {
+}
+    
+export function getNodesInShortestPathOrder(endNode) {
     let nodesInShortestPathOrder = [];
     let currentNode = endNode;
     while (currentNode !== null) {
-      nodesInShortestPathOrder.unshift(currentNode);
-      currentNode = currentNode.previousNode;
+        nodesInShortestPathOrder.unshift(currentNode);
+        currentNode = currentNode.previousNode;
     }
     return nodesInShortestPathOrder;
-  }
+}

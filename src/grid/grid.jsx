@@ -3,9 +3,6 @@ import './grid.css'
 import Node from './node/node'
 import {algorithm, getNodesInShortestPathOrder} from './algorithms'
 
-// let rows = Math.ceil(props.height/props.nodeSize);
-// let cols = Math.ceil(props.width/props.nodeSize);
-
 let height = 694
 let width = 1536
 
@@ -42,6 +39,7 @@ const createNode = (row, col) => {
       isEnd: row === end[0] && col === end[1],
       distance: Infinity,
       isVisited: false,
+      isPath: false,
       isWall: false,
       previousNode: null,
     };
@@ -76,9 +74,8 @@ export default function Grid(props) {
     const clearPath = () => {
         for (let row=0; row < rows; row++) {
             for (let col=0; col < cols; col++) {
-                if (modelGrid[row][col].isVisited) {
-                    modelGrid[row][col].isVisited = false
-                }
+                modelGrid[row][col].isVisited = false
+                modelGrid[row][col].isPath = false
                 modelGrid[row][col].distance = Infinity
                 modelGrid[row][col].previousNode = null
             }
@@ -171,6 +168,20 @@ export default function Grid(props) {
         rightMouseIsPressed = false
     }
 
+    const visitNode = (node) => {
+        modelGrid[node.row][node.col].isVisited = true
+        if (!node.isStart && !node.isEnd) {
+            document.getElementById(`${node.row}-${node.col}`).style.fill = "rgb(206,250,5)"
+        }
+    }
+
+    const setPath = (node) => {
+        modelGrid[node.row][node.col].isPath = true
+        if (!node.isStart && !node.isEnd) {
+            document.getElementById(`${node.row}-${node.col}`).style.fill = "rgb(255,190,28)"
+        }
+    }
+
     const getFrames = () => {
         let startNode = modelGrid[start[0]][start[1]]
         let endNode = modelGrid[end[0]][end[1]]
@@ -178,32 +189,49 @@ export default function Grid(props) {
         let visitedInOrder = algorithm(modelGrid,startNode,endNode,
             props.algorithm,props.heuristic,props.heuristicStrength,
             props.diagonal)
+        let nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode)
         clearPath()
-        if (visitedInOrder) {animateFrames(visitedInOrder)}
+        if (visitedInOrder) {animateNodes(visitedInOrder,nodesInShortestPathOrder)}
+        // if (nodesInShortestPathOrder) {animate(nodesInShortestPathOrder,setPath)}
     }
 
     props.setClickGetFrames(getFrames)
 
-    const visitNode = (node) => {
-        modelGrid[node.row][node.col].isVisited = true
-        if (!node.isStart && !node.isEnd) {
-            document.getElementById(`${node.row}-${node.col}`).style.fill = "green"
-        }
-    }
-
-    const animateFrames = (anim) => {
+    const animateNodes = (anim, nodesInShortestPathOrder) => {
         let runAnimations = () => {
             if (running) {
-            if (i === anim.length) {
-                running = false
+                if (i === anim.length) {
+                    animatePath(nodesInShortestPathOrder)
+                } else {
+                    visitNode(anim[i])
+                    i += 1
+                    timer = setTimeout(runAnimations, delay)
+                }
+            } else {
                 clearTimeout(timer);
                 return
-            } else {
-                visitNode(anim[i])
-                i += 1
-                timer = setTimeout(runAnimations, delay)
             }
-        }}
+        }
+        running = true
+        let i = 0
+        let timer = setTimeout(runAnimations, delay)
+    };
+
+    const animatePath = (anim) => {
+        let runAnimations = () => {
+            if (running) {
+                if (i === anim.length) {
+                    running = false
+                } else {
+                    setPath(anim[i])
+                    i += 1
+                    timer = setTimeout(runAnimations, delay)
+                }
+            } else {
+                clearTimeout(timer);
+                return
+            }
+        }
         running = true
         let i = 0
         let timer = setTimeout(runAnimations, delay)
@@ -224,6 +252,7 @@ export default function Grid(props) {
                     id={`${row}-${column}`}
                     key={`${row}-${column}-${date.getTime()}`}
                     isWall={node.isWall}
+                    isPath={node.isPath}
                     isExplored={node.isVisited}
                     weight={node.weight}
                     isStart={node.isStart}
