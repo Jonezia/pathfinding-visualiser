@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import './grid.css'
 import Node from './node/node'
-import {dijkstra, getNodesInShortestPathOrder} from './algorithms'
+import {algorithm, getNodesInShortestPathOrder} from './algorithms'
 
 // let rows = Math.ceil(props.height/props.nodeSize);
 // let cols = Math.ceil(props.width/props.nodeSize);
@@ -50,12 +50,12 @@ const createNode = (row, col) => {
 let modelGrid = newGrid(rows,cols)
 
 // Thus, the structure of a grid is
-// [ row: [ node: [ isWall: bool, isExplored: bool, weight: 0-9] ]
+// [ row: [ node: {} , node: {} ], row: [ node: {} , node: {} ] ]
 
 export default function Grid(props) {
     let date = new Date()
 
-    let delay = (51-props.speed)
+    let delay = (101-props.speed)
 
     let [myGrid,setMyGrid] = useState(modelGrid)
 
@@ -175,10 +175,11 @@ export default function Grid(props) {
         let startNode = modelGrid[start[0]][start[1]]
         let endNode = modelGrid[end[0]][end[1]]
         clearPath()
-        let visitedInOrder = dijkstra(modelGrid,startNode,endNode)
+        let visitedInOrder = algorithm(modelGrid,startNode,endNode,
+            props.algorithm,props.heuristic,props.heuristicStrength,
+            props.diagonal)
         clearPath()
-        console.log(visitedInOrder)
-        animateFrames(visitedInOrder)
+        if (visitedInOrder) {animateFrames(visitedInOrder)}
     }
 
     props.setClickGetFrames(getFrames)

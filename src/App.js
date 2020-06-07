@@ -6,17 +6,17 @@ import Options from './options/options';
 import Instructions from './instructions/instructions'
 import Stats from './stats/stats'
 
-let algorithm
-let terrain
-let speed = 50
-let heuristic = "euclidean"
-let heuristicStrength = 1
-let diagonal = false
-let corners = true
-
 export default function App(props) {
     const targetRef = useRef()
     const [dimensions,setDimensions] = useState({width:0,height:0});
+
+    let [algorithm,setAlgorithm] = useState(null)
+    let [terrain,setTerrain] = useState(null)
+    let [speed,setSpeed] = useState(50)
+    let [heuristic,setHeuristic] = useState("euclidean")
+    let [heuristicStrength,setHeuristicStrength] = useState(1)
+    let [diagonal,setDiagonal] = useState(false)
+    let [corners,setCorners] = useState(true)
 
     let onClickClearTerrainPassUp
     const onClickClearTerrain = () => {
@@ -52,30 +52,30 @@ export default function App(props) {
 
 
     const changeAlgorithm = (event) => {
-        algorithm = event.target.value
+        setAlgorithm(event.target.value)
     }
     const changeTerrain = (event) => {
-        terrain = event.target.value
+        setTerrain(event.target.value)
     }
     const changeSpeed = (event) => {
-        speed = event.target.value
+        setSpeed(event.target.value)
     }
     const changeHeuristic = (event) => {
-        heuristic = event.target.value
+        setHeuristic(event.target.value)
     }
     const changeHeuristicStrength = (event) => {
         if (event.target.value) {
-            heuristicStrength = event.target.value
+            setHeuristicStrength(event.target.value)
         }
         else {
-            heuristicStrength = 1
+            setHeuristicStrength(1)
         }
     }
     const changeDiagonal = (event) => {
-        diagonal = event.target.checked
+        setDiagonal(event.target.checked)
     }
     const changeCorners = (event) => {
-        corners = event.target.checked
+        setCorners(event.target.checked)
     }
 
     useLayoutEffect(() => {
@@ -102,7 +102,11 @@ export default function App(props) {
             setChangeNodeSize={setChangeNodeSize}
             algorithm={algorithm}
             speed={speed}
-            heuristic={heuristic}/>
+            terrain={terrain}
+            heuristic={heuristic}
+            heuristicStrength={heuristicStrength}
+            diagonal={diagonal}
+            corners={corners}/>
             <Options onChangeSpeed={changeSpeed}
             onChangeNodeSize={onChangeNodeSize}
             onChangeHeuristic={changeHeuristic}
