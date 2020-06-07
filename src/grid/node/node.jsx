@@ -10,7 +10,7 @@ const weights = ["rgba(255,255,255,1)", "rgba(204,250,255,1)",
     "rgba(25,101,240,1)", "rgba(0,63,200,1)"]
 
 export default function Node(props) {
-    let {nodeSize,row,column,isWall,isExplored,weight,isStart,isEnd,
+    let {nodeSize,row,column,id,isWall,isExplored,weight,isStart,isEnd,
         handleLeftMouseDown,handleLeftMouseEnter,handleLeftMouseUp,
         handleRightMouseDown,handleRightMouseEnter,handleRightMouseUp,} = props
 
@@ -64,6 +64,7 @@ export default function Node(props) {
 
     return(
         <rect className="node"
+            id={id}
             x={column*nodeSize}
             y={row*nodeSize}
             width={nodeSize}

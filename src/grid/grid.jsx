@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import './grid.css'
 import Node from './node/node'
+import {dijkstra, getNodesInShortestPathOrder} from './algorithms'
 
 // let rows = Math.ceil(props.height/props.nodeSize);
 // let cols = Math.ceil(props.width/props.nodeSize);
@@ -25,10 +26,6 @@ const newGrid = (prows,pcols) => {
     for (let row=0; row<prows; row++) {
         let temprow = []
         for (let col=0; col<pcols; col++) {
-        // Using arrays to store node data instead of objects due to speed.
-        // Node = [isWall,isExplored,weight]
-        // isWall, isExplored, boolean
-        //weight = integer 0-9, how much "effort" it takes to expand a node
             temprow.push(createNode(row,col))
         }
         tempGrid.push(temprow)
@@ -58,7 +55,7 @@ let modelGrid = newGrid(rows,cols)
 export default function Grid(props) {
     let date = new Date()
 
-    let delay = (101-props.speed)*100
+    let delay = (51-props.speed)
 
     let [myGrid,setMyGrid] = useState(modelGrid)
 
@@ -175,43 +172,39 @@ export default function Grid(props) {
     const getFrames = () => {
         let startNode = modelGrid[start[0]][start[1]]
         let endNode = modelGrid[end[0]][end[1]]
-        let frames
-        // if (props.algorithm === "DEFAULT") {
-        //     return
-        // } else if (props.algorithm === "bfs") {
-        //     frames = bfs(modelGrid, startNode, endNode)
-        // } else if (props.algorithm === "dfs") {
-        //     frames = dfs(modelGrid, startNode, endNode)
-        // } else if (props.algorithm === "greedy") {
-        //     frames = greedy(modelGrid, startNode, endNode)
-        // } else if (props.algorithm === "dijkstra") {
-        //     frames = dijkstra(modelGrid, startNode, endNode)
-        // } else if (props.algorithm === "astar") {
-        //     frames = astar(modelGrid, startNode, endNode)
-        // }
-        // let nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode);
-        // animateFrames(frames)
-        // animatePath(nodesInShortesPathOrder)
+        let visitedInOrder = dijkstra(modelGrid,startNode,endNode)
+        clearPath()
+        console.log(props.algorithm)
+        console.log(delay)
+        console.log(props.speed)
+        animateFrames(visitedInOrder)
     }
 
     props.setClickGetFrames(getFrames)
 
-    const animateFrames = (frames) => {
-        // let frames = generateFrames(algorithm, myArray)
+    const visitNode = (node) => {
+        console.log(node.row)
+        console.log(node.col)
+        modelGrid[node.row][node.col].isVisited = true
+        setMyGrid(modelGrid.slice())
+    }
+
+    const animateFrames = (anim) => {
         let runAnimations = () => {
             if (running) {
-            if (i === frames.length) {
+            if (i === anim.length) {
                 running = false
                 clearTimeout(timer);
+                return
             } else {
-                setMyGrid(frames[i]);
+                visitNode(anim[i])
                 i += 1
                 timer = setTimeout(runAnimations, delay)
             }
         }}
         running = true
-        let timer = setTimeout(runAnimations, delay)
         let i = 0
+        let timer = setTimeout(runAnimations, delay)
     };
 
     // date.getTime is appended to the key of each node, to change state
@@ -226,6 +219,7 @@ export default function Grid(props) {
                     return <Node nodeSize={nodeSize}
                     row={row}
                     column={column}
+                    id={`${row}-${column}`}
                     key={`${row}-${column}-${date.getTime()}`}
                     isWall={node.isWall}
                     isExplored={node.isVisited}
