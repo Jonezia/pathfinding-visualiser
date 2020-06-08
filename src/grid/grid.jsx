@@ -13,6 +13,8 @@ let cols = Math.ceil(width/nodeSize)
 
 let start = [10,15]
 let end = [10,35]
+let dragStart = false
+let dragEnd = false
 
 let leftMouseIsPressed = false
 let rightMouseIsPressed = false
@@ -144,14 +146,37 @@ export default function Grid(props) {
 
     const handleLeftMouseDown = (row,col) => {
         leftMouseIsPressed = true
-        return toggleWall(row,col)
+        if ((row === start[0]) && (col === start[1])) {
+            dragStart = true
+        }
+        else if ((row === end[0]) && (col === end[1])) {
+            dragEnd = true
+        } else {
+            return toggleWall(row,col)
+        }
     }
 
     const handleLeftMouseEnter = (row,col) => {
-        return toggleWall(row,col)
+        if (dragStart) {
+            modelGrid[start[0]][start[1]].isStart = false
+            document.getElementById(`${start[0]}-${start[1]}`).style.fill = "white"
+            start = [row,col]
+            modelGrid[start[0]][start[1]].isStart = true
+            document.getElementById(`${start[0]}-${start[1]}`).style.fill = "rgba(255,60,60,1)"
+        } else if (dragEnd) {
+            modelGrid[end[0]][end[1]].isEnd = false
+            document.getElementById(`${end[0]}-${end[1]}`).style.fill = "white"
+            end = [row,col]
+            modelGrid[end[0]][end[1]].isEnd = true
+            document.getElementById(`${end[0]}-${end[1]}`).style.fill = "rgba(180,65,255,1)"
+        } else {
+            return toggleWall(row,col)
+        }
     }
 
     const handleLeftMouseUp = () => {
+        dragStart = false
+        dragEnd = false
         leftMouseIsPressed = false
     }
 
