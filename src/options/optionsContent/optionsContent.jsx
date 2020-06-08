@@ -37,6 +37,11 @@ export default function OptionsContent(props) {
                             name="heuristic"/>
                             <label>Manhattan</label>
                         </div>
+                        <div className="selector">
+                            <input type="radio" value="chebyshev"
+                            name="heuristic"/>
+                            <label>Chebyshev</label>
+                        </div>
                     </div>
                 </div>
                 <div className="selectorWrapper">

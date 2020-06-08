@@ -1,5 +1,5 @@
 export function algorithm(grid,startNode,endNode,algorithm,
-    heuristic,heuristicStrength,diagonal) {
+    heuristic,heuristicStrength,diagonal,corner) {
         switch(algorithm) {
             case "dfs":
                 break;
@@ -21,6 +21,7 @@ export function algorithm(grid,startNode,endNode,algorithm,
 
 function astar (grid, startNode, endNode, distance,
     heuristic, heuristicStrength, diagonal) {
+    let work = 0
     let nodesInOrder = [];
     startNode.distance = 0;
     let unvisitedNodes = getAllNodes(grid);
@@ -28,10 +29,11 @@ function astar (grid, startNode, endNode, distance,
         sortNodesByDistance(unvisitedNodes);
         let closestNode = unvisitedNodes.shift();
         if (closestNode.isWall) continue;
-        if (closestNode.distance === Infinity) return nodesInOrder;
+        if (closestNode.distance === Infinity) return [nodesInOrder, work];
         closestNode.isVisited = true;
+        work += closestNode.weight
         nodesInOrder.push(closestNode);
-        if (closestNode === endNode) return nodesInOrder;
+        if (closestNode === endNode) return [nodesInOrder, work];
         updateUnvisitedNeighbors(closestNode, grid, endNode,
             distance, heuristic, heuristicStrength, diagonal);
     }
@@ -47,7 +49,7 @@ function getHeuristic(heuristic,node,endNode) {
             return Math.sqrt(Math.pow((node.col - endNode.col),2) + Math.pow((node.row - endNode.row),2))
         case "manhattan":
             return Math.abs(node.col - endNode.col) + Math.abs(node.row - endNode.row)
-        case "diagonal":
+        case "chebyshev":
             return Math.max(Math.abs(node.col - endNode.col),Math.abs(node.row - endNode.row))
         default:
             return

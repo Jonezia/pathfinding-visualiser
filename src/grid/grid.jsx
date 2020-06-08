@@ -183,27 +183,33 @@ export default function Grid(props) {
     }
 
     const getFrames = () => {
+        if (!props.algorithm) return;
         let startNode = modelGrid[start[0]][start[1]]
         let endNode = modelGrid[end[0]][end[1]]
         clearPath()
-        let visitedInOrder = algorithm(modelGrid,startNode,endNode,
+        let [visitedInOrder,work] = algorithm(modelGrid,startNode,endNode,
             props.algorithm,props.heuristic,props.heuristicStrength,
-            props.diagonal)
+            props.diagonal,props.corner)
         let nodesInShortestPathOrder = getNodesInShortestPathOrder(endNode)
         clearPath()
-        if (visitedInOrder) {animateNodes(visitedInOrder,nodesInShortestPathOrder)}
-        // if (nodesInShortestPathOrder) {animate(nodesInShortestPathOrder,setPath)}
+        if (visitedInOrder) {animateNodes(visitedInOrder,nodesInShortestPathOrder,work)}
     }
 
     props.setClickGetFrames(getFrames)
 
-    const animateNodes = (anim, nodesInShortestPathOrder) => {
+    const updateStats = (visited,steps,work) => {
+        document.getElementById("statsVisited").innerHTML = "Visited: " + visited.toString()
+        document.getElementById("statsSteps").innerHTML = "Steps: " + steps.toString()
+        document.getElementById("statsWork").innerHTML = "Work: " + work.toString()
+    }
+
+    const animateNodes = (visitedInOrder,nodesInShortestPathOrder,work) => {
         let runAnimations = () => {
             if (running) {
-                if (i === anim.length) {
-                    animatePath(nodesInShortestPathOrder)
+                if (i === visitedInOrder.length) {
+                    animatePath(visitedInOrder,nodesInShortestPathOrder,work)
                 } else {
-                    visitNode(anim[i])
+                    visitNode(visitedInOrder[i])
                     i += 1
                     timer = setTimeout(runAnimations, delay)
                 }
@@ -217,13 +223,15 @@ export default function Grid(props) {
         let timer = setTimeout(runAnimations, delay)
     };
 
-    const animatePath = (anim) => {
+    const animatePath = (visitedInOrder,nodesInShortestPathOrder,work) => {
         let runAnimations = () => {
             if (running) {
-                if (i === anim.length) {
+                if (i === nodesInShortestPathOrder.length) {
                     running = false
+                    updateStats(visitedInOrder.length-1,
+                        nodesInShortestPathOrder.length-1,work)
                 } else {
-                    setPath(anim[i])
+                    setPath(nodesInShortestPathOrder[i])
                     i += 1
                     timer = setTimeout(runAnimations, delay)
                 }
